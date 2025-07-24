@@ -1,4 +1,6 @@
-﻿namespace Task1
+﻿using System.ComponentModel;
+
+namespace Task1
 {
     /*Задание 1
 Создайте приложение для работы с коллекцией стихов. Необходимо хранить такую информацию:
@@ -24,11 +26,116 @@
 По слову в тексте стиха;
 По году написания стиха;
 По длине стиха.*/
-    internal class Program 
+    internal class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            var poems = new List<Poetry>
+                {
+                    new Poetry
+                    {
+                        Name = "Парус",
+                        Autor = "М.Ю. Лермонтов",
+                        YearOfCreation = new DateOnly(1832, 1, 1),
+                        Theme = "Одиночество",
+                        Text = "Белеет парус одинокой..."
+                    },
+                    new Poetry
+                    {
+                        Name = "Облако в штанах",
+                        Autor = "В. В. Маяковский",
+                        YearOfCreation = new DateOnly(1915, 1, 1),
+                        Theme = "Любовь, страдание",
+                        Text = "Вашу мысль, мечтающую на размягченном мозгу, как выжиревший лакей на засаленной кушетке..."
+                    },
+                    new Poetry
+                    {
+                        Name = "Я вас любил",
+                        Autor = "А. С. Пушкин",
+                        YearOfCreation = new DateOnly(1829, 1, 1),
+                        Theme = "Несчастная любовь",
+                        Text = "Я вас любил: любовь ещё, быть может, в душе моей угасла не совсем..."
+                    },
+                    new Poetry
+                    {
+                        Name = "Не люблю",
+                        Autor = "В. С. Высоцкий",
+                        YearOfCreation = new DateOnly(1971, 1, 1),
+                        Theme = "Протест, антипатия",
+                        Text = "Не люблю я фатального исхода, от жизни никогда не устаю..."
+                    },
+                    new Poetry
+                    {
+                        Name = "Стихи о неизвестном герое",
+                        Autor = "А. Твардовский",
+                        YearOfCreation = new DateOnly(1942, 1, 1),
+                        Theme = "Война, подвиг",
+                        Text = "Он сражался как лев, а был просто мальчишкой из хутора..."
+                    },
+                    new Poetry
+                    {
+                        Name = "Кошка и Wi-Fi",
+                        Autor = "Барсик",
+                        YearOfCreation = new DateOnly(2024, 3, 1),
+                        Theme = "Техника и животные",
+                        Text = "Кошка легла на роутер, нагревательный зверь. Интернету капут. И печаль, и теперь..."
+                    },
+                    new Poetry
+                    {
+                        Name = "Зарядка — зло",
+                        Autor = "Анонимный студент",
+                        YearOfCreation = new DateOnly(2023, 9, 1),
+                        Theme = "Лень, фитнес",
+                        Text = "Я клянусь, я встану в шесть. Но не завтра. Может в среду. Может позже. Может — не судьба."
+                    },
+
+                    new Poetry
+                    {
+                        Name = "Молитва",
+                        Autor = "М. Ю. Лермонтов",
+                        YearOfCreation = new DateOnly(1837, 5, 1),
+                        Theme = "Вера, душа, утешение",
+                        Text = "В минуту жизни трудную,\nТеснится ль в сердце грусть:\nОдну молитву чудную\nТвержу я наизусть..."
+                    },
+                    new Poetry
+                    {
+                        Name = "Смерть поэта",
+                        Autor = "М. Ю. Лермонтов",
+                        YearOfCreation = new DateOnly(1837, 1, 1),
+                        Theme = "Гибель, общество, гнев",
+                        Text = "Погиб поэт! — невольник чести —\nПал, оклеветанный молвой,\nС свинцом в груди и жаждой мести,\nПоникнув гордой головой..."
+                    },
+                    new Poetry
+                    {
+                        Name = "Монолог вареной картошки",
+                        Autor = "Кулинарный романтик",
+                        YearOfCreation = new DateOnly(2021, 4, 4),
+                        Theme = "Еда, философия",
+                        Text = "Я была пюре, я была в мундире... Что мне осталось? Только масло и соль."
+                    },
+                    new Poetry
+                    {
+                        Name = "Пятница, будь благословенна",
+                        Autor = "Программист-джуниор",
+                        YearOfCreation = new DateOnly(2023, 6, 16),
+                        Theme = "Работа, отдых",
+                        Text = "Коммит закрыт, багов не видно. Пятница настала — код ушёл в отпуск первым."
+                    }
+                };
+            foreach (var poem in poems)
+            {
+                PoetryManager.Instance.AddPoem(poem);
+            }
+            poems.Clear();
+    
+            var results = PoetryManager.Instance.FindByAuthor("лермонтов");
+        
+            foreach (var p in results)
+            {
+                Console.WriteLine($"Название: {p.Name}, Автор: {p.Autor}");
+            }
+
+            Console.ReadLine();
         }
     }
 }

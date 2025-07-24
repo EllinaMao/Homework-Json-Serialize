@@ -73,6 +73,7 @@ namespace Task1
     public class Poetry
     {
         public string Name { get; set; }
+        public string Autor {  get; set; }
         public string Theme { get; set; }
         public string Text { get; set; }
         public DateOnly YearOfCreation{get; set; }
@@ -80,14 +81,16 @@ namespace Task1
         public Poetry()
             {
                 Name = "Unknown";
+                Autor = "Unknown";
                 Theme = "Unknown";
                 Text = "Unknown";
                 YearOfCreation = DateOnly.MinValue;
 
             }
-        public Poetry(string name, string theme, string text, string date)
+        public Poetry(string name, string autor, string theme, string text, string date)
         {
             Name = name;
+            Autor = autor;
             Theme = theme;
             Text = text;
             try
@@ -96,19 +99,21 @@ namespace Task1
             }
             catch (ArgumentNullException ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.Message);//не хочу выводить наружу ошибку в конструкторе
+                YearOfCreation = DateOnly.MinValue;
             }
         }
         public Poetry(string name, string theme, string text, DateOnly date)
         {
             Name = name;
+            Autor= theme;
             Theme = theme;
             Text = text;
             YearOfCreation = date;
         }
         public override string ToString()
         {
-            return $"Название: {Name}, Тема: {Theme}, Содержание: {Text}, Год создания: {YearOfCreation.ToString(CultureInfo.InvariantCulture)}";
+            return $"Название: {Name}, Автор: {Autor}, Тема: {Theme}, Содержание: {Text}, Год создания: {YearOfCreation.ToString(CultureInfo.InvariantCulture)}";
         }
 
 
