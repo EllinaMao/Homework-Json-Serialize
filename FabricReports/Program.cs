@@ -1,6 +1,6 @@
 ﻿namespace Poem
 {
-    internal class Program
+    internal class FabricReports
     {/*Задание 1
 Создайте приложение для работы с коллекцией стихов. Необходимо хранить такую информацию:
 

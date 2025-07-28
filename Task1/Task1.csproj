@@ -8,6 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FabricReports\FabricReports.csproj" />
+    <ProjectReference Include="..\Homework\Homework.csproj" />
     <ProjectReference Include="..\Poem\Poem.csproj" />
   </ItemGroup>
 

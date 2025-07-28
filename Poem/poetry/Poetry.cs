@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Task1
+namespace Poem.poetry
 {/*Задание 1
 Создайте приложение для работы с коллекцией стихов. Необходимо хранить такую информацию:
 
@@ -113,7 +113,7 @@ namespace Task1
         }
         public override string ToString()
         {
-            return $"Название: {Name}, Автор: {Autor}, Тема: {Theme}, Содержание: {Text}, Год создания: {YearOfCreation.ToString(CultureInfo.InvariantCulture)}";
+            return $"Название: {Name},\nАвтор: {Autor},\nТема: {Theme},\nСодержание: {Text},\nГод создания: {YearOfCreation.ToString(CultureInfo.InvariantCulture)}\n";
         }
 
 

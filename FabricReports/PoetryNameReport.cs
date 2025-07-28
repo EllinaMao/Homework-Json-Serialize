@@ -3,6 +3,7 @@ using Poem.poetry;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Json;
@@ -11,35 +12,35 @@ using System.Threading.Tasks;
 
 namespace FabricReports
 {
-    public class AutorReport : IReport
+    public class PoetryNameReport : IReport
     {
-        sealed class AuthorReportEntry
+        sealed class PoetryNameReportEntry
         {
-            [JsonPropertyName("Автор")]
-            public string Author { get; set; } = string.Empty;
+            [JsonPropertyName("СловоВСтихе")]
+            public string Name { get; set; } = string.Empty;
 
             [JsonPropertyName("КоличествоСтихов")]
             public int PoemCount { get; set; }
 
         }
 
-        private string Normalize(string author)
+        private string Normalize(string word)
         {
-            return string.Join("", author.Where(c => !char.IsWhiteSpace(c)))
+            return string.Join("", word.Where(c => !char.IsWhiteSpace(c)))
                          .ToLowerInvariant();
         }
 
-        private IEnumerable<(string Author, int Count)> GroupReport(List<Poetry> poems)
+        private IEnumerable<(string Name, int Count)> GroupReport(List<Poetry> poems)
         {
             return poems
                 .GroupBy(p => new
                 {
-                    Normalized = Normalize(p.Autor),
-                    Original = p.Autor
+                    Normalized = Normalize(p.Name),
+                    Original = p.Name
                 })
                 .GroupBy(g => g.Key.Normalized)
                 .Select(g => (
-                    Author: g.First().Key.Original,
+                    Name: g.First().Key.Original,
                     Count: g.SelectMany(x => x).Count()
                 ));
         }
@@ -51,7 +52,7 @@ namespace FabricReports
             var builder = new StringBuilder();
             foreach (var group in grouped)
             {
-                builder.AppendLine($"Автор: {group.Author} — {group.Count} стих(ов)");
+                builder.AppendLine($"Автор: {group.Name} — {group.Count} стих(ов)");
             }
 
             return builder.ToString();
@@ -67,7 +68,7 @@ namespace FabricReports
             var grouped = GroupReport(poems)
                 .Select(g => new
                 {
-                    Автор = g.Author,
+                    НазваниеСтиха = g.Name,
                     КоличествоСтихов = g.Count
                 });
 
@@ -91,7 +92,7 @@ namespace FabricReports
 
             var json = File.ReadAllText(filename);
 
-            var report = JsonSerializer.Deserialize<List<AuthorReportEntry>>(json);
+            var report = JsonSerializer.Deserialize<List<PoetryNameReportEntry>>(json);
 
             if (report == null || report.Count == 0)
             {
@@ -102,7 +103,7 @@ namespace FabricReports
             Console.WriteLine("Отчёт из файла:");
             foreach (var entry in report)
             {
-                Console.WriteLine($"Автор: {entry.Author}, Кол-во стихов: {entry.PoemCount}");
+                Console.WriteLine($"Название стиха: {entry.Name}, Кол-во стихов: {entry.PoemCount}");
             }
         }
 

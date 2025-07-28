@@ -11,35 +11,35 @@ using System.Threading.Tasks;
 
 namespace FabricReports
 {
-    public class AutorReport : IReport
+    public class YearReport : IReport
     {
-        sealed class AuthorReportEntry
+        sealed class YearReportEntry
         {
-            [JsonPropertyName("Автор")]
-            public string Author { get; set; } = string.Empty;
+            [JsonPropertyName("Год стиха")]
+            public string Year { get; set; } = string.Empty;
 
             [JsonPropertyName("КоличествоСтихов")]
             public int PoemCount { get; set; }
 
         }
 
-        private string Normalize(string author)
+        private string Normalize(string word)
         {
-            return string.Join("", author.Where(c => !char.IsWhiteSpace(c)))
+            return string.Join("", word.Where(c => !char.IsWhiteSpace(c)))
                          .ToLowerInvariant();
         }
 
-        private IEnumerable<(string Author, int Count)> GroupReport(List<Poetry> poems)
+        private IEnumerable<(string Year, int Count)> GroupReport(List<Poetry> poems)
         {
             return poems
                 .GroupBy(p => new
                 {
-                    Normalized = Normalize(p.Autor),
-                    Original = p.Autor
+                    Normalized = Normalize(p.YearOfCreation.ToString("yyyy")),
+                    Original = p.YearOfCreation.ToString("yyyy")
                 })
                 .GroupBy(g => g.Key.Normalized)
                 .Select(g => (
-                    Author: g.First().Key.Original,
+                    Year: g.First().Key.Original,
                     Count: g.SelectMany(x => x).Count()
                 ));
         }
@@ -51,7 +51,7 @@ namespace FabricReports
             var builder = new StringBuilder();
             foreach (var group in grouped)
             {
-                builder.AppendLine($"Автор: {group.Author} — {group.Count} стих(ов)");
+                builder.AppendLine($"Год: {group.Year} — {group.Count} стих(ов)");
             }
 
             return builder.ToString();
@@ -67,7 +67,7 @@ namespace FabricReports
             var grouped = GroupReport(poems)
                 .Select(g => new
                 {
-                    Автор = g.Author,
+                    ГодСтиха = g.Year,
                     КоличествоСтихов = g.Count
                 });
 
@@ -91,7 +91,7 @@ namespace FabricReports
 
             var json = File.ReadAllText(filename);
 
-            var report = JsonSerializer.Deserialize<List<AuthorReportEntry>>(json);
+            var report = JsonSerializer.Deserialize<List<YearReportEntry>>(json);
 
             if (report == null || report.Count == 0)
             {
@@ -102,7 +102,7 @@ namespace FabricReports
             Console.WriteLine("Отчёт из файла:");
             foreach (var entry in report)
             {
-                Console.WriteLine($"Автор: {entry.Author}, Кол-во стихов: {entry.PoemCount}");
+                Console.WriteLine($"Название стиха: {entry.Year}, Кол-во стихов: {entry.PoemCount}");
             }
         }
 

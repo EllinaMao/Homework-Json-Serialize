@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Encodings.Web;
+using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace Task1
+namespace Poem.poetry
 {
     internal class PoetryRepositore//хранит класс и всю логику
     {
@@ -12,7 +14,11 @@ namespace Task1
 
         public void AddPoem(Poetry poem) => poems.Add(poem);
 
-        public void RemovePoem(Poetry poem) => poems.Remove(poem);
+        public void RemovePoem(int index)
+        {
+            if (index >= 0 && index < poems.Count)
+                poems.RemoveAt(index);
+        }
 
         public void UpdatePoem(int index, Poetry newPoem)
         {
@@ -38,7 +44,28 @@ namespace Task1
             poems.Where(p => p.Text.Contains(word, StringComparison.OrdinalIgnoreCase)).ToList();
         public List<Poetry> FindByLength(int length) =>
             poems.Where(p => p.Text.Length == length).ToList();
+        public void ShowAllPoems() => poems.ForEach(poem => Console.WriteLine(poem.ToString()));
 
+        public void SaveToFile(string filePath)
+        {
+            var options = new JsonSerializerOptions
+            {
+                WriteIndented = true,
+                Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+            };
+            var json = JsonSerializer.Serialize(poems, options);
+            File.WriteAllText(filePath, json);
+        }
 
+        public void LoadFromFile(string filePath)
+        {
+            if (!File.Exists(filePath)) return;
+
+            var json = File.ReadAllText(filePath);
+            var loaded = JsonSerializer.Deserialize<List<Poetry>>(json);
+            if (loaded != null)
+                poems = loaded;
+        }
     }
 }
+

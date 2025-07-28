@@ -1,4 +1,6 @@
-﻿using System.ComponentModel;
+﻿using FabricReports;
+using Poem.poetry;
+using System.ComponentModel;
 
 namespace Task1
 {
@@ -16,8 +18,12 @@ namespace Task1
 Удалять стихи;
 Изменять информацию о стихах;
 Искать стих по разным характеристикам;
+
+
 Сохранять коллекцию стихов в файл;
 Загружать коллекцию стихов из файла.
+
+
 Приложение должно иметь возможность генерировать отчёты. Отчёт может быть отображён на экран или сохранён в файл. Создайте такие отчёты:
 
 По названию стиха;
@@ -30,104 +36,8 @@ namespace Task1
     {
         static void Main(string[] args)
         {
-            var poems = new List<Poetry>
-                {
-                    new Poetry
-                    {
-                        Name = "Парус",
-                        Autor = "М.Ю. Лермонтов",
-                        YearOfCreation = new DateOnly(1832, 1, 1),
-                        Theme = "Одиночество",
-                        Text = "Белеет парус одинокой..."
-                    },
-                    new Poetry
-                    {
-                        Name = "Облако в штанах",
-                        Autor = "В. В. Маяковский",
-                        YearOfCreation = new DateOnly(1915, 1, 1),
-                        Theme = "Любовь, страдание",
-                        Text = "Вашу мысль, мечтающую на размягченном мозгу, как выжиревший лакей на засаленной кушетке..."
-                    },
-                    new Poetry
-                    {
-                        Name = "Я вас любил",
-                        Autor = "А. С. Пушкин",
-                        YearOfCreation = new DateOnly(1829, 1, 1),
-                        Theme = "Несчастная любовь",
-                        Text = "Я вас любил: любовь ещё, быть может, в душе моей угасла не совсем..."
-                    },
-                    new Poetry
-                    {
-                        Name = "Не люблю",
-                        Autor = "В. С. Высоцкий",
-                        YearOfCreation = new DateOnly(1971, 1, 1),
-                        Theme = "Протест, антипатия",
-                        Text = "Не люблю я фатального исхода, от жизни никогда не устаю..."
-                    },
-                    new Poetry
-                    {
-                        Name = "Стихи о неизвестном герое",
-                        Autor = "А. Твардовский",
-                        YearOfCreation = new DateOnly(1942, 1, 1),
-                        Theme = "Война, подвиг",
-                        Text = "Он сражался как лев, а был просто мальчишкой из хутора..."
-                    },
-                    new Poetry
-                    {
-                        Name = "Кошка и Wi-Fi",
-                        Autor = "Барсик",
-                        YearOfCreation = new DateOnly(2024, 3, 1),
-                        Theme = "Техника и животные",
-                        Text = "Кошка легла на роутер, нагревательный зверь. Интернету капут. И печаль, и теперь..."
-                    },
-                    new Poetry
-                    {
-                        Name = "Зарядка — зло",
-                        Autor = "Анонимный студент",
-                        YearOfCreation = new DateOnly(2023, 9, 1),
-                        Theme = "Лень, фитнес",
-                        Text = "Я клянусь, я встану в шесть. Но не завтра. Может в среду. Может позже. Может — не судьба."
-                    },
-
-                    new Poetry
-                    {
-                        Name = "Молитва",
-                        Autor = "М. Ю. Лермонтов",
-                        YearOfCreation = new DateOnly(1837, 5, 1),
-                        Theme = "Вера, душа, утешение",
-                        Text = "В минуту жизни трудную,\nТеснится ль в сердце грусть:\nОдну молитву чудную\nТвержу я наизусть..."
-                    },
-                    new Poetry
-                    {
-                        Name = "Смерть поэта",
-                        Autor = "М. Ю. Лермонтов",
-                        YearOfCreation = new DateOnly(1837, 1, 1),
-                        Theme = "Гибель, общество, гнев",
-                        Text = "Погиб поэт! — невольник чести —\nПал, оклеветанный молвой,\nС свинцом в груди и жаждой мести,\nПоникнув гордой головой..."
-                    },
-                    new Poetry
-                    {
-                        Name = "Монолог вареной картошки",
-                        Autor = "Кулинарный романтик",
-                        YearOfCreation = new DateOnly(2021, 4, 4),
-                        Theme = "Еда, философия",
-                        Text = "Я была пюре, я была в мундире... Что мне осталось? Только масло и соль."
-                    },
-                    new Poetry
-                    {
-                        Name = "Пятница, будь благословенна",
-                        Autor = "Программист-джуниор",
-                        YearOfCreation = new DateOnly(2023, 6, 16),
-                        Theme = "Работа, отдых",
-                        Text = "Коммит закрыт, багов не видно. Пятница настала — код ушёл в отпуск первым."
-                    }
-                };
-            foreach (var poem in poems)
-            {
-                PoetryManager.Instance.AddPoem(poem);
-            }
-            poems.Clear();
-    
+            var filename = "repository.json";
+            PoetryManager.Instance.LoadFromFile(filename);
             var results = PoetryManager.Instance.FindByAuthor("лермонтов");
         
             foreach (var p in results)
@@ -136,6 +46,38 @@ namespace Task1
             }
 
             Console.ReadLine();
+
+            PoetryManager.Instance.AddPoem(new Poetry
+            {
+                Name = "Долгий путь домой",
+                Autor = "Валерий Петросян",
+                Theme = "Поэзия",
+                Text = "Ехал Грека через реку, видит Грека в реке рак. Сунул Грека руку в реку. Рак за руку Греку ХАП",
+                YearOfCreation = new DateOnly(2007, 12, 23)
+
+            });
+            var result = PoetryManager.Instance.GetAllPoems();
+            PoetryManager.Instance.ShowAllPoems();
+            PoetryManager.Instance.RemovePoem(result.Count-1);
+
+            IReport autorReport = new AutorReport();
+            IReport PoetryNameReport = new PoetryNameReport();
+            IReport ThemeReport = new ThemeReport();
+            IReport TextWordReport = new TextWordReport("в");
+            IReport YearReport = new YearReport();
+            IReport LenthReport = new LengthReport();
+
+            autorReport.ShowReport(PoetryManager.Instance.GetAllPoems());
+            autorReport.GenereateJson(PoetryManager.Instance.GetAllPoems(), "autorReport.json");
+
+            PoetryNameReport.GenereateJson(PoetryManager.Instance.GetAllPoems(), "PoetryNameReport.json");
+
+            ThemeReport.GenereateJson(PoetryManager.Instance.GetAllPoems(), "ThemeReport.json");
+            TextWordReport.GenereateJson(PoetryManager.Instance.GetAllPoems(), "TextWordReport.json");
+            YearReport.GenereateJson(PoetryManager.Instance.GetAllPoems(), "YearReport.json");
+            LenthReport.GenereateJson(PoetryManager.Instance.GetAllPoems(), "LenthReport.json");
+            PoetryManager.Instance.SaveToFile(filename);
+
         }
     }
 }
