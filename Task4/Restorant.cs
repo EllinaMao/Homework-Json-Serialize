@@ -24,20 +24,7 @@ namespace Task4
 Задание 7
 Пользователь вводит с клавиатуры оценку работы ресторана. Напишите регулярное выражение для проверки оценки. Оценка может варьироваться от 1 до 12.
 
-Задание 8
-Разработайте приложение для оценки деятельности ресторана. Пользователь вводит с клавиатуры такую информацию:
-
-Ник;
-Электронный адрес;
-Номер телефона;
-Название ресторана;
-Адрес ресторана;
-Кухня ресторана;
-Контактный номер телефона ресторана;
-Оценка ресторана;
-Отзыв пользователя о ресторане.
-
-Используя регулярные выражения проверьте данные, введенные в форму. Если пользователь где-то совершил ошибку при вводе, сообщите ему об этом. Если информация была введена успешно, сохраните информацию в файл.*/
+*/
     public class Restorant
     {
         private static string Validate(string value, string pattern, string errorMessage)
@@ -50,7 +37,6 @@ namespace Task4
         private string adress;
         private string kitchenName;
         private string phonenumber;
-        private int reputationMark;
 
         public string RestaurantName
         {
@@ -95,16 +81,6 @@ namespace Task4
             }
         }
 
-        public int ReputationMark
-        {
-            get => reputationMark;
-            set
-            {
-                if (!Regex.IsMatch(value.ToString(), @"^(1[0-2]|[1-9])$"))
-                    throw new ArgumentException("Оценка ресторана должна быть целым числом от 1 до 12.");
-                reputationMark = value;
-            }
-        }
 
         public Restorant()
         {
@@ -112,13 +88,12 @@ namespace Task4
             adress = string.Empty;
             kitchenName = string.Empty;
             phonenumber = "380123456789";
-            reputationMark = 1;
         }
         public void SetUserRestaurant()
         {
             SetRestaurantName();
         }
-        private void SetPropertyWithValidation(
+        private static void SetPropertyWithValidation(
             string prompt,
             Action<string> propertySetter)
         {
@@ -139,9 +114,11 @@ namespace Task4
         }
         public void SetRestaurant()
         {
-            SetPropertyWithValidation("Введите адрес ресторана:", value => Adress = value);
+            SetRestaurantName();
+            SetRestaurantAdress();
+            SetRestaurantKitchen();
+            SetRestaurantPhone();
         }
-
 
         public void SetRestaurantName()
         {
@@ -160,10 +137,7 @@ namespace Task4
         {
             SetPropertyWithValidation("Введите телефон ресторана:", value => Phonenumber = value);
         }
-        public void SetRestaurantReputation()
-        {
-            SetPropertyWithValidation("Введите оценку ресторана:", value => ReputationMark = Convert.ToInt32(ReputationMark));
-        }
+
 
 
 

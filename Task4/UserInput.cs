@@ -25,7 +25,7 @@ namespace Input
 
         public static string GetStringFromUser()
         {
-            string input = Console.ReadLine();
+            string? input = Console.ReadLine();
             if (string.IsNullOrWhiteSpace(input))
             {
                 throw new ArgumentException("Ввод не может быть пустым или состоять только из пробелов.");
