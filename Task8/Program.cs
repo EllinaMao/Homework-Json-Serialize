@@ -1,4 +1,6 @@
-﻿namespace Task8
+﻿using System.Text.Json;
+using Task4;
+namespace Task8
 {
     internal class Program
     {
@@ -17,7 +19,11 @@
 Используя регулярные выражения проверьте данные, введенные в форму. Если пользователь где-то совершил ошибку при вводе, сообщите ему об этом. Если информация была введена успешно, сохраните информацию в файл*/
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            var resReview = new RestaurantReview();
+            resReview.FillFromUser();
+            resReview.SaveToFile("Review.json");
+
+
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -23,6 +24,8 @@ namespace Task8
     internal class RestaurantMarks
     {
         private int reputationMark;
+        [JsonPropertyName("Отзыв про ресторан")]
+
         public string Revew {  get; set; }
 
         private static void SetPropertyWithValidation(
@@ -44,6 +47,7 @@ namespace Task8
                 }
             }
         }
+        [JsonPropertyName("Баллы")]
         public int ReputationMark
         {
             get => reputationMark;

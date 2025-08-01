@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 namespace Task4
@@ -37,7 +38,7 @@ namespace Task4
         private string adress;
         private string kitchenName;
         private string phonenumber;
-
+        [JsonPropertyName("Название ресторана")]
         public string RestaurantName
         {
             get => restaurantName;
@@ -47,16 +48,17 @@ namespace Task4
                 "Название ресторана содержит запрещённые символы (% & ( ))."
             );
         }
+        [JsonPropertyName("Адрес")]
         public string Adress
         {
             get => adress;
             set => adress = Validate(
                 value,
                 @"^[A-Za-z0-9\s]+$",
-                "Улица записана некорректно"
+                "Адрес содержит недопустимые символы, он может быть записан только на латинице"
             );
         }
-
+        [JsonPropertyName("Кухня")]
         public string KitchenName
         {
             get => kitchenName;
@@ -66,7 +68,7 @@ namespace Task4
                 "Некорректное название кухни ресторана"
             );
         }
-
+        [JsonPropertyName("Контактный телефон")]
         public string Phonenumber
         {
             get => phonenumber;
@@ -80,8 +82,6 @@ namespace Task4
                 phonenumber = pattern.Replace(value, "+380-$1-$2-$3-$4");// шаблон для замены
             }
         }
-
-
         public Restorant()
         {
             restaurantName = string.Empty;
@@ -137,14 +137,6 @@ namespace Task4
         {
             SetPropertyWithValidation("Введите телефон ресторана:", value => Phonenumber = value);
         }
-
-
-
-
-
-
-
-
 
     }
 }
