@@ -1,4 +1,7 @@
-﻿namespace Task2_3
+﻿using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+
+namespace Task2_3
 {
     internal class Program
     {
@@ -17,9 +20,40 @@ D:\DataForUser
 *.txt*/
         static void Main(string[] args)
         {
-            string[] value = {
-                    "This is .NET World", "Hello World", "My Wonderfull world"
-                };
+            Console.WriteLine("Введите путь к файлу");
+            string? Path = Console.ReadLine();
+            Console.WriteLine("Введите маску");
+            string? Mask = Console.ReadLine();
+
+            if (!Directory.Exists(Path))
+            {
+                Console.WriteLine("Указанная папка не существует.");
+                return;
+            }
+
+            try
+            {
+
+                FilepathWork.FindFiles(Path, Mask);
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            Console.WriteLine("Введите путь к файлу");
+            Path = Console.ReadLine();
+            Console.WriteLine("Введите маску");
+            Mask = Console.ReadLine();
+            try
+            {
+                FilepathWork.DeleteFiles(Path, Mask);
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
         }
     }
 
